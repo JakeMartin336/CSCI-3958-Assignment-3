@@ -1,0 +1,28 @@
+{
+  "name": "assignment3",
+  "version": "1.0.0",
+  "description": "CSCI39548 - SP23. Assignment 3 Code.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CSCI-39548-SP23/assignment3.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CSCI-39548-SP23/assignment3/issues"
+  },
+  "homepage": "https://github.com/CSCI-39548-SP23/assignment3#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "node-fetch": "^3.3.1",
+    "nodemon": "^3.1.7",
+    "swagger-ui-express": "^5.0.1",
+    "uuid": "^10.0.0"
+  },
+  "type": "module"
+}

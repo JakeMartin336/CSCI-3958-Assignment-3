@@ -1,0 +1,618 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "CSCI 39548 - Assignment 3",
+    "version": "1.0.0"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/pokemon/{id}": {
+      "get": {
+        "summary": "Get data about a Pokémon",
+        "description": "Retrieve curated/processed data about the Pokémon, given a Pokémon ID # or name from the PokeAPI.",
+        "responses": {
+          "200": {
+            "description": "Relevant Pokémon data retrieved from PokeAPI",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 4
+                },
+                "name": {
+                  "type": "string",
+                  "example": "charmander"
+                },
+                "height": {
+                  "type": "integer",
+                  "example": 6
+                },
+                "weight": {
+                  "type": "integer",
+                  "example": 85
+                },
+                "stats": {
+                  "type": "object",
+                  "example": {
+                    "hp": 39,
+                    "attack": 52,
+                    "defense": 43,
+                    "specialAttack": 60,
+                    "specialDefense": 50,
+                    "speed": 65
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid Pokémon ID given."
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "description": "Pokémon ID number OR name"
+          }
+        ],
+        "tags": [
+          "Assignment 3 Endpoints"
+        ]
+      }
+    },
+    "/pokemon/catch": {
+      "post": {
+        "parameters": [
+          {
+            "in": "body",
+            "name": "pokemons",
+            "schema": {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "example": "charmander"
+                  },
+                  {
+                    "type": "integer",
+                    "example": "151"
+                  },
+                  {
+                    "type": "integer",
+                    "example": "definitely not a pokemon"
+                  },
+                  {
+                    "type": "string",
+                    "example": "piplup"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "summary": "Catch Pokémon",
+        "description": "Given a list of Pokémon IDs and/or names in the request payload, attempt to catch these Pokémon",
+        "responses": {
+          "200": {
+            "description": "Return a list of Pokémon that were caught, along with their unique caught ID.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "example": {
+                      "id": 4,
+                      "caughtPokemonId": "f154d2d5-a757-43d0-892e-4fbbeb5cb9f4",
+                      "name": "charmander",
+                      "height": 6,
+                      "weight": 85,
+                      "stats": {
+                        "hp": 39,
+                        "attack": 52,
+                        "defense": 43,
+                        "specialAttack": 60,
+                        "specialDefense": 50,
+                        "speed": 65
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "example": {
+                      "id": 151,
+                      "caughtPokemonId": "6619eff7-f5c3-4f6d-baf8-a6d433dbae6b",
+                      "name": "mew",
+                      "height": 4,
+                      "weight": 40,
+                      "stats": {
+                        "hp": 100,
+                        "attack": 100,
+                        "defense": 100,
+                        "specialAttack": 100,
+                        "specialDefense": 100,
+                        "speed": 100
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "example": {
+                      "id": 393,
+                      "caughtPokemonId": "a128eada-2f39-4d50-9cdc-9490e98aaae8",
+                      "name": "piplup",
+                      "height": 4,
+                      "weight": 52,
+                      "stats": {
+                        "hp": 53,
+                        "attack": 51,
+                        "defense": 53,
+                        "specialAttack": 61,
+                        "specialDefense": 56,
+                        "speed": 40
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "tags": [
+          "Assignment 3 Endpoints"
+        ]
+      }
+    },
+    "/pokemon/caught/{caughtPokemonId}": {
+      "get": {
+        "summary": "Retrieve caught Pokémon data.",
+        "description": "Retrieve caught Pokémon data from our ExpressJS cache, with the given caughtPokemonId. Return empty object if Pokémon is not found in cache. If no ID is given, return all caught Pokémon data.",
+        "responses": {
+          "200": {
+            "description": "Returns the current state of caught Pokémon data that's stored on our server.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 4
+                },
+                "caughtPokemonId": {
+                  "type": "string",
+                  "example": "f154d2d5-a757-43d0-892e-4fbbeb5cb9f4"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "charmander"
+                },
+                "height": {
+                  "type": "integer",
+                  "example": 6
+                },
+                "weight": {
+                  "type": "integer",
+                  "example": 85
+                },
+                "stats": {
+                  "type": "object",
+                  "example": {
+                    "hp": 39,
+                    "attack": 52,
+                    "defense": 43,
+                    "specialAttack": 60,
+                    "specialDefense": 50,
+                    "speed": 65
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "caughtPokemonId",
+            "in": "path",
+            "required": false,
+            "type": "string",
+            "format": "string"
+          }
+        ],
+        "tags": [
+          "Assignment 3 Endpoints"
+        ]
+      },
+      "delete": {
+        "summary": "Release a caught Pokémon",
+        "description": "Delete/release the Pokémon with the given caughtPokemonId from our list of caught Pokémon.",
+        "responses": {
+          "200": {
+            "description": "Success message denoting caughtPokemonId has been released.",
+            "schema": {
+              "type": "string",
+              "example": "Successfully deleted Pokémon: f154d2d5-a757-43d0-892e-4fbbeb5cb9f4"
+            }
+          },
+          "400": {
+            "description": "Error caughtPokemonId given, meaning no Pokémon with the caughtPokemonId found to delete/release."
+          }
+        },
+        "parameters": [
+          {
+            "name": "caughtPokemonId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          }
+        ],
+        "tags": [
+          "Assignment 3 Endpoints"
+        ]
+      }
+    },
+    "/pokemon/teach/{caughtPokemonId}": {
+      "post": {
+        "summary": "Teach a caught Pokémon some moves!",
+        "description": "Teach a move to the caught Pokémon with the given caughtPokemonId. A Pokémon can learn at most 4 unique moves at any given time",
+        "responses": {
+          "200": {
+            "description": "Caught Pokémon data with taught moves listed.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 4
+                },
+                "caughtPokemonId": {
+                  "type": "string",
+                  "example": "f154d2d5-a757-43d0-892e-4fbbeb5cb9f4"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "charmander"
+                },
+                "moves": {
+                  "type": "array",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "example": {
+                          "id:": 1,
+                          "name": "pound"
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "example": {
+                          "id:": 4,
+                          "name": "comet-punch"
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "example": {
+                          "id:": 42,
+                          "name": "pin-missile"
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "example": {
+                          "id:": 123,
+                          "name": "smog"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "height": {
+                  "type": "integer",
+                  "example": 6
+                },
+                "weight": {
+                  "type": "integer",
+                  "example": 85
+                },
+                "stats": {
+                  "type": "object",
+                  "example": {
+                    "hp": 39,
+                    "attack": 52,
+                    "defense": 43,
+                    "specialAttack": 60,
+                    "specialDefense": 50,
+                    "speed": 65
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error caughtPokemonId given (meaning no caught Pokémon with that ID exists). Or you are unable to teach the move to the Pokémon."
+          }
+        },
+        "parameters": [
+          {
+            "name": "caughtPokemonId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "in": "body",
+            "name": "moves",
+            "schema": {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  {
+                    "type": "integer",
+                    "example": "comet-punch"
+                  },
+                  {
+                    "type": "integer",
+                    "example": "42"
+                  },
+                  {
+                    "type": "string",
+                    "example": "smog"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "tags": [
+          "Assignment 3 Endpoints"
+        ]
+      }
+    },
+    "/pokemon/evolve/{caughtPokemonId}": {
+      "put": {
+        "summary": "Evolve a caught Pokémon!",
+        "description": "Evolve a caught Pokémon with the given caughtPokemonId.",
+        "responses": {
+          "200": {
+            "description": "Pokémon is evolved, all previously learned moves are kept.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 5
+                },
+                "caughtPokemonId": {
+                  "type": "string",
+                  "example": "f154d2d5-a757-43d0-892e-4fbbeb5cb9f4"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "charmeleon"
+                },
+                "moves": {
+                  "type": "array",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "example": {
+                          "id:": 1,
+                          "name": "pound"
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "example": {
+                          "id:": 4,
+                          "name": "comet-punch"
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "example": {
+                          "id:": 42,
+                          "name": "pin-missile"
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "example": {
+                          "id:": 123,
+                          "name": "smog"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "height": {
+                  "type": "integer",
+                  "example": 6
+                },
+                "weight": {
+                  "type": "integer",
+                  "example": 85
+                },
+                "stats": {
+                  "type": "object",
+                  "example": {
+                    "hp": 39,
+                    "attack": 52,
+                    "defense": 43,
+                    "specialAttack": 60,
+                    "specialDefense": 50,
+                    "speed": 65
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error caughtPokemonId given (meaning no caught Pokémon with that ID exists). Or you are unable to evolve Pokémon."
+          }
+        },
+        "parameters": [
+          {
+            "name": "caughtPokemonId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          }
+        ],
+        "tags": [
+          "Assignment 3 Endpoints"
+        ]
+      }
+    },
+    "/pokemon/breed-check": {
+      "post": {
+        "summary": "Check if you can cross breed two Pokémon",
+        "description": "Given an array of 2 Pokémon IDs/names, check if they are able to be bred.",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "pokemons",
+            "schema": {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "example": "charmander"
+                  },
+                  {
+                    "type": "integer",
+                    "example": "4"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "True/False value denoting the two Pokémons given can be bred or not.",
+            "schema": {
+              "type": "boolean",
+              "example": true
+            }
+          },
+          "400": {
+            "description": "Error Pokémon ID or name given in the request payload."
+          }
+        },
+        "tags": [
+          "Assignment 3 Endpoints"
+        ]
+      }
+    },
+    "/item/buy/{id}": {
+      "get": {
+        "summary": "Buy a particular item with the given id, and store it in our bag.",
+        "description": "Given an item id, we will look up the data from PokeAPI and \"buy\" the item, storing it in our bag, along with its cost.",
+        "responses": {
+          "200": {
+            "description": "Return the current state of our bag with the newly bought item.",
+            "schema": {
+              "type": "array",
+              "example": [{
+                "id": 1,
+                "name": "master-ball",
+                "cost": 0
+              }]
+            }
+          },
+          "400": {
+            "description": "Error/invalid item id given."
+          },
+          "500": {
+            "description": "Bag is full, unable to store any more items. Limit of 10 items reached."
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string",
+            "description": "Item ID or name"
+          }
+        ],
+        "tags": [
+          "Assignment 3 Endpoints"
+        ]
+      }
+    },
+    "/bag": {
+      "get": {
+        "summary": "List out the contents of our bag.",
+        "description": "Returns a list of all the items currently stored/bought in our bag, along with their cost.",
+        "responses": {
+          "200": {
+            "description": "Return the current state of our bag, individually listing our the stored/bought items and their costs.",
+            "schema": {
+              "type": "array",
+              "example": [
+                {
+                  "id": 1,
+                  "name": "master-ball",
+                  "cost": 0
+                },
+                {
+                  "id": 1,
+                  "name": "master-ball",
+                  "cost": 0
+                },
+                {
+                  "id": 35,
+                  "name": "energy-root",
+                  "cost": 1200
+                }
+              ]
+            }
+          }
+        },
+        "tags": [
+          "Assignment 3 Endpoints"
+        ]
+      },
+      "delete": {
+        "summary": "Empty out our bag.",
+        "description": "Empty our all the items that we had previously bought and reset the bag to an empty list.",
+        "responses": {
+          "200": {
+            "description": "Return a success response indicating the bag has been emptied.",
+            "schema": {
+              "type": "string",
+              "example": "Bag emptied!"
+            }
+          }
+        },
+        "tags": [
+          "Assignment 3 Endpoints"
+        ]
+      }
+    }
+  },
+  "definitions": {
+  }
+}
